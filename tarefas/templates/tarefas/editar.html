@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Tarefa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white px-10 py-6">
+  <h1 class="text-2xl mb-6">✏️ Editar Tarefa</h1>
+  <form method="POST" class="space-y-4">
+    {% csrf_token %}
+    <input type="text" name="descricao" value="{{ tarefa.descricao }}" class="p-2 rounded text-black w-full">
+    <select name="prioridade" class="p-2 rounded text-black w-full">
+      <option value="baixa" {% if tarefa.prioridade == "baixa" %}selected{% endif %}>🟢 Baixa</option>
+      <option value="media" {% if tarefa.prioridade == "media" %}selected{% endif %}>🟡 Média</option>
+      <option value="alta" {% if tarefa.prioridade == "alta" %}selected{% endif %}>🔥 Alta</option>
+    </select>
+    <select name="categoria" class="p-2 rounded text-black w-full">
+      {% for cat in categorias %}
+        <option value="{{ cat.id }}" {% if tarefa.categoria.id == cat.id %}selected{% endif %}>{{ cat.nome }}</option>
+      {% endfor %}
+    </select>
+    <input type="date" name="agendada_para" value="{{ tarefa.agendada_para|date:'Y-m-d' }}" class="p-2 rounded text-black w-full">
+    <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Salvar</button>
+  </form>
+</body>
+</html>
